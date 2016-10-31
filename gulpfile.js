@@ -39,5 +39,3 @@ gulp.task('watch', ['browserSync', 'pug', 'sass'], function(){
 	gulp.watch('public/scss/**/*.scss', ['sass']);
 	gulp.watch('views/*.pug', browserSync.reload);
 })
-
-//Docs: https://css-tricks.com/gulp-for-beginners/

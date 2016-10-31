@@ -3,10 +3,16 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var browserSync = require('browser-sync').create();
+var pug = require('gulp-pug');
 
-gulp.task('hello', function() {
-	console.log("Hello, Porsh!")
-});
+//Process Pug
+gulp.task('pug', function() {
+	gulp.src('views/*.pug')
+	.pipe(pug({
+		pretty: true
+	}))
+	.pipe(gulp.dest('dist'))
+})
 
 // Preprocess Sass
 gulp.task('sass', function(){
@@ -18,19 +24,20 @@ gulp.task('sass', function(){
 		}))
 });
 
-
 //Browser Sync
 gulp.task('browserSync', function() {
   browserSync.init({
     server: {
-      baseDir: 'application'
+      baseDir: 'dist',
+      index: 'index.html'
     },
   })
 })
 
 // Watch Gulp Tasks
-gulp.task('watch', ['browserSync', 'sass'], function(){
+gulp.task('watch', ['browserSync', 'pug', 'sass'], function(){
 	gulp.watch('public/scss/**/*.scss', ['sass']);
-	// Other Watchers
+	gulp.watch('views/*.pug', browserSync.reload);
 })
 
+//Docs: https://css-tricks.com/gulp-for-beginners/
